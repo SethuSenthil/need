@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Posts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Overpass+Mono:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script>
+  var config = {
+    apiKey: "AIzaSyATuMtMYSEl-XtlrMC6VSWDVKmKPBS1DMg",
+    authDomain: "needproj.firebaseapp.com",
+    databaseURL: "https://needproj.firebaseio.com",
+    projectId: "needproj",
+    storageBucket: "needproj.appspot.com",
+    messagingSenderId: "144793274520"
+  };
+  firebase.initializeApp(config);
+    </script>
+</head>
+<body>
+   <center>
+        <br>
+        NETWORK MEMBERS - <span class="ranNum">5</span>
+        <br>
+        NEEDS PENDING - <span class="ranNum">12</span>
+        <br>
+        NEEDS FULFILLED - <span class="ranNum">33</span>
+        <br>
+        <i class="fas fa-book-open"  id="dic" style="margin: 25px; font-size: 40px;"></i>
+       <h1 class="title is-1">Needs</h1>
+</center>
+    <div class="container">
+<div id="posts">
+
+</div>
+      <style>
+          *{
+    font-family: 'Overpass Mono', monospace;
+}
+      .card{
+          border-radius: 25px;
+          margin: 10px;
+      }
+.card:after {
+    display: table;
+    content: ' ';
+    clear: both;
+}
+
+@keyframes slide-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+      </style>
+<script>
+ const db = firebase.firestore();
+ db.collection('posts').get().then((snapshot) => {
+     snapshot.docs.forEach(doc => {
+         console.log(doc.data());
+         renderPosts(doc);
+     })
+ });
+let anSpeed = 1;
+ let post = document.getElementById('posts');
+ function renderPosts(doc){
+let span = document.createElement('span');
+let h1 = document.createElement('h1');
+span.innerHTML = `<div class="card" style="animation: slide-up ${anSpeed}s ease; ">
+        <header class="card-header">
+          <p class="card-header-title">
+                <img style="float:left height:40px; width:40px; border-radius: 25px; margin: 10px;" src="${doc.data().photo}" alt="">
+            ${doc.data().name}
+          </p>
+          <a href="#" class="card-header-icon" aria-label="more options">
+            <span class="icon">
+              <i class="fas fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </a>
+        </header>
+        <div class="card-content">
+         <b>Needs</b> ${doc.data().needed}
+          </div>
+        </div>
+      </div>`;
+doc.data().needed;
+
+post.appendChild(span);
+anSpeed += 0.5;
+ }
+</script>
+</div>
+</body>
+</html>

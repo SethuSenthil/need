@@ -1,0 +1,210 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Overpass+Mono:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script>
+  var config = {
+    apiKey: "AIzaSyATuMtMYSEl-XtlrMC6VSWDVKmKPBS1DMg",
+    authDomain: "needproj.firebaseapp.com",
+    databaseURL: "https://needproj.firebaseio.com",
+    projectId: "needproj",
+    storageBucket: "needproj.appspot.com",
+    messagingSenderId: "144793274520"
+  };
+  firebase.initializeApp(config);
+    </script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.1/firebaseui.css" />
+    <title>English Project</title>
+</head>
+<body>
+<main>
+<h1 class="title is-1">What DO YOU <span class="red-txt">NEED</span>?</h1>
+<h1 class="title is-1">I NEED <input onkeypress="handle(event)"  type="text" id="need-input"></h1>
+<i class="fas fa-book-open"  id="dic" style="margin: 25px; font-size: 40px;"></i>
+
+</main>
+<div id="signout" onclick="signout();">Sign Out</div>
+<div class="modal modaler">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <p style="color:black !important;">
+            This page was given a dark theme because the words in which the author describes this social network is very mysterious and evil.
+            The text on thr website match the exact words given on the book on page 17.
+            <br>
+            I also made a banner stating this social network was exclusivly for SBHS because the social network NEED in the book was exclusive to the Nottawa highschool, the school the students attended so I switched it out to my school.
+            An example could be seen on page 32, "PLEASE ENTER YOUR NAME AND CLICK THE BOX TO CONFIRM YOU ARE A STUDENT CURRENTLY ENROLLED IN NOTTAWA HIGH SCHOOL." (Charabonnoue 32)
+            <br>
+        </p>
+        </div>
+        <button class="modal-close"></button>
+      </div>
+      <div class="modal modal-login">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                Please conform that you attend SBHS. <input type="checkbox">
+                <h1 style="color:black !important;">Click on the button below to login</h1>
+                    <div id="firebaseui-auth-container"></div>
+                </p>
+            </div>
+            <button class="modal-close"></button>
+          </div>
+
+          <div class="modal modal-request">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <p style="color:black !important;">
+                    "YOUR NEED REQUEST HAS BEEN PROCESSED. WE WILL DO OUR BEST TO SEE THAT YOUR NEED IS MET."
+                    (Charabonnoue 28)
+<br>
+                NETWORK MEMBERS - <span class="ranNum"></span>
+                <br>
+                NEEDS PENDING - <span class="ranNum"></span>
+                <br>
+                NEEDS FULFILLED - <span class="ranNum"></span>
+                <br>
+                This element was inspired by pages 28 and 29
+                <br>
+                <br>
+                <a class="button is-danger" href="./posts.html"> Check Posted Needs</a>
+                    </p>
+                </div>
+                <button class="modal-close"></button>
+              </div>
+</body>
+<style>
+body{
+    background-color:black;
+}
+#signout{
+    top: 10px;
+    display: none;
+}
+*{
+    font-family: 'Overpass Mono', monospace;
+    color: white !important;
+}
+.modal-content{
+    background-color: white;
+    color:black !important;
+    padding: 15px;
+}
+#need-input{
+    margin:0;
+	border:0;
+	padding:0;
+	display:inline-block;
+	vertical-align:middle;
+	white-space:normal;
+	background:none;
+	line-height:1;
+    font-size: 3rem;
+    font-family: 'Overpass Mono', monospace;
+    border-bottom: 5px solid red;
+}
+input:focus
+{
+	outline:0;
+}
+main{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: center;
+    padding: 0 30px;
+    text-align: center;
+}
+.red-txt{
+    color:red !important;
+}
+.fa-book-open:hover{
+   color: red !important;
+}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.9"></script>
+<script>
+    $("#dic").click(function() {
+  $(".modaler").addClass("is-active");
+});
+
+$(".modal-close").click(function() {
+   $(".modaler").removeClass("is-active");
+});
+const db = firebase.firestore(),
+signout = () => {
+    firebase.auth().signOut().then(function() {
+  window.reload();
+}).catch(function(error) {
+//oof
+});
+};
+
+let needNum = document.getElementById('ranNum');
+for (let i = 0; i < needNum; i++) {
+    let ranNum = Math.round(Math.random() * 35);
+    needNum[i].innetText = ranNum;
+}
+var displayName = '';
+    var email = '';
+    var emailVerified = '';
+    var photoURL = '';
+function handle(e){
+        if(e.keyCode === 13){
+            e.preventDefault(); // Ensure it is only this code that rusn
+            $(".modal-request").addClass("is-active");
+            let neededThing = document.getElementById('need-input').value;
+            let idr = Math.round(Math.random() * 200);
+            db.collection("posts").doc(idr.toString()).set({
+    name: displayName,
+    photo: photoURL ,
+    needed: neededThing
+})
+        }
+    }
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+     document.getElementById('signout').style.display = 'block';
+     displayName = user.displayName;
+     email = user.email;
+     emailVerified = user.emailVerified;
+     photoURL = user.photoURL;
+     alert('logged in as:' + displayName);
+  } else {
+    $(".modal-login").addClass("is-active");
+  }
+});
+var uiConfig = {
+        signInSuccessUrl: 'http://localhost:5500/index.html',
+        signInOptions: [
+          // Leave the lines as is for the providers you want to offer your users.
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        ],
+        // tosUrl and privacyPolicyUrl accept either url string or a callback
+        // function.
+        // Terms of service url/callback.
+        tosUrl: 'https://google.com',
+        signInFlow: 'popup',
+
+        // Privacy policy url/callback.
+        privacyPolicyUrl: function() {
+          window.location.assign('https://google.com');
+        }
+      };
+
+      // Initialize the FirebaseUI Widget using Firebase.
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
+      // The start method will wait until the DOM is loaded.
+      ui.start('#firebaseui-auth-container', uiConfig);
+      if (ui.isPendingRedirect()) {
+  ui.start('#firebaseui-auth-container', uiConfig);
+}
+</script>
+</html>
