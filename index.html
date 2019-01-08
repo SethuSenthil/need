@@ -7,20 +7,6 @@
     <link href="https://fonts.googleapis.com/css?family=Overpass+Mono:300,400,600,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
-    <script>
-  var config = {
-    apiKey: "AIzaSyATuMtMYSEl-XtlrMC6VSWDVKmKPBS1DMg",
-    authDomain: "needproj.firebaseapp.com",
-    databaseURL: "https://needproj.firebaseio.com",
-    projectId: "needproj",
-    storageBucket: "needproj.appspot.com",
-    messagingSenderId: "144793274520"
-  };
-  firebase.initializeApp(config);
-    </script>
-    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.1/firebaseui.js"></script>
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.1/firebaseui.css" />
     <title>English Project</title>
 </head>
@@ -129,7 +115,19 @@ main{
 }
 
 </style>
-<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.9"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script>
+  var config = {
+    apiKey: "AIzaSyATuMtMYSEl-XtlrMC6VSWDVKmKPBS1DMg",
+    authDomain: "needproj.firebaseapp.com",
+    databaseURL: "https://needproj.firebaseio.com",
+    projectId: "needproj",
+    storageBucket: "needproj.appspot.com",
+    messagingSenderId: "144793274520"
+  };
+  firebase.initializeApp(config);
+    </script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.1/firebaseui.js"></script>
 <script>
     $("#dic").click(function() {
   $(".modaler").addClass("is-active");
@@ -161,8 +159,8 @@ function handle(e){
             e.preventDefault(); // Ensure it is only this code that rusn
             $(".modal-request").addClass("is-active");
             let neededThing = document.getElementById('need-input').value;
-            let idr = Math.round(Math.random() * 200);
-            db.collection("posts").doc(idr.toString()).set({
+            let idr = Math.round(Math.random() * 100000000000000000000);
+            db.collection("posts").add({
     name: displayName,
     photo: photoURL ,
     needed: neededThing
@@ -182,7 +180,8 @@ firebase.auth().onAuthStateChanged(function(user) {
   }
 });
 var uiConfig = {
-        signInSuccessUrl: 'http://sethusenthil.com/need/index.html',
+        //signInSuccessUrl: 'http://sethusenthil.com/index.html',
+        signInSuccessUrl: 'http://localhost:5500/index.html',
         signInOptions: [
           // Leave the lines as is for the providers you want to offer your users.
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,

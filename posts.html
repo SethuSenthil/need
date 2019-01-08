@@ -25,7 +25,7 @@
         <br>
         NETWORK MEMBERS - <span class="ranNum">5</span>
         <br>
-        NEEDS PENDING - <span class="ranNum">12</span>
+        NEEDS PENDING - <span class="numPost"></span>
         <br>
         NEEDS FULFILLED - <span class="ranNum">33</span>
         <br>
@@ -62,13 +62,28 @@
 }
 
       </style>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.9.3/countUp.min.js"></script>
 <script>
+let numOfPost = 0;
  const db = firebase.firestore();
  db.collection('posts').get().then((snapshot) => {
      snapshot.docs.forEach(doc => {
          console.log(doc.data());
          renderPosts(doc);
+         numOfPost++;
      })
+     var options = {
+  useEasing: true,
+  useGrouping: true,
+  separator: ',',
+  decimal: '.',
+};
+     var tickerThing = new CountUp('#numPost', 0, numOfPost, 0, 2.5, options);
+if (!tickerThing.error) {
+    tickerThing.start();
+} else {
+  console.error(tickerThing.error);
+}
  });
 let anSpeed = 1;
  let post = document.getElementById('posts');
