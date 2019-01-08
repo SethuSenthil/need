@@ -72,19 +72,8 @@ let numOfPost = 0;
          renderPosts(doc);
          numOfPost++;
      })
-     var options = {
-  useEasing: true,
-  useGrouping: true,
-  separator: ',',
-  decimal: '.',
-};
-     var tickerThing = new CountUp('#numPost', 0, numOfPost, 0, 2.5, options);
-if (!tickerThing.error) {
-    tickerThing.start();
-} else {
-  console.error(tickerThing.error);
-}
  });
+
 let anSpeed = 1;
  let post = document.getElementById('posts');
  function renderPosts(doc){
@@ -112,6 +101,21 @@ doc.data().needed;
 post.appendChild(span);
 anSpeed += 0.5;
  }
+setTimeout(function () {
+
+ var options = {
+  useEasing: true,
+  useGrouping: true,
+  separator: ',',
+  decimal: '.',
+};
+     var tickerThing = new CountUp('#numPost', 0, numOfPost, 0, 2.5, options);
+if (!tickerThing.error) {
+    tickerThing.start();
+} else {
+  console.error(tickerThing.error);
+}
+}, 2000)
 </script>
 </div>
 </body>
