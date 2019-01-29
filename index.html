@@ -7,32 +7,40 @@
     <link href="https://fonts.googleapis.com/css?family=Overpass+Mono:300,400,600,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://hacksb.org/styles/modal-fx.min.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.1/firebaseui.css" />
     <title>English Project</title>
 </head>
 <body>
 <main>
-<h1 class="title is-1">What DO YOU <span class="red-txt">NEED</span>?</h1>
+<h1 class="title is-1">What DO YOU <span class="red-txt" id="messenger">NEED</span>?</h1>
 <h1 class="title is-1">I NEED <input onkeypress="handle(event)"  type="text" id="need-input"></h1>
 <i class="fas fa-book-open"  id="dic" style="margin: 25px; font-size: 40px;"></i>
 
 </main>
 <div id="signout" onclick="signout();">Sign Out</div>
+<div id="footer">Powered by the Chinese government </div>
 <div class="modal modaler">
         <div class="modal-background"></div>
         <div class="modal-content">
             <p style="color:black !important;">
-            This page was given a dark theme because the words in which the author describes this social network is very mysterious and evil.
-            The text on thr website match the exact words given on the book on page 17.
+                This page was given a dark theme because the words in which the author describes this social network is very mysterious and evil.
+                The text on the website match the exact words given on the book on page 17.
             <br>
-            I also made a banner stating this social network was exclusivly for SBHS because the social network NEED in the book was exclusive to the Nottawa highschool, the school the students attended so I switched it out to my school.
-            An example could be seen on page 32, "PLEASE ENTER YOUR NAME AND CLICK THE BOX TO CONFIRM YOU ARE A STUDENT CURRENTLY ENROLLED IN NOTTAWA HIGH SCHOOL." (Charabonnoue 32)
+            I also made a banner stating this social network was exclusively for SBHS because the social network NEED in the book was exclusive to the Nottawa high school, the school the students attended so I switched it out to my school.
+            An example could be seen on page 32, "PLEASE ENTER YOUR NAME AND CLICK THE BOX TO CONFIRM YOU ARE A STUDENT CURRENTLY ENROLLED IN NOTTAWA HIGH SCHOOL." (Charbonneau 39)
+            <br>
+            <br>
+            If you look above at URL omnibar, you can see text circulating which says "powered by the Chinese government". This element is added because around the end of the novel, which ends abruptly it states that a
+            'foreign' government was behind all this to observe and record data about the united states citizens. I chose the Chinese government because they are usually on the news for spying and hacking services to direct
+            information to China. For example this <a style="color:blue !important" href="https://www.theguardian.com/technology/2019/jan/11/huawei-employee-arrested-in-poland-over-chinese-spy-allegations">article</a> which describes China spying threw
+            tech companies.
             <br>
         </p>
         </div>
         <button class="modal-close"></button>
       </div>
-      <div class="modal modal-login">
+      <div class="modal modal-login modal-fx-fadeInScale">
             <div class="modal-background"></div>
             <div class="modal-content">
                 Please conform that you attend SBHS. <input type="checkbox">
@@ -47,8 +55,8 @@
                 <div class="modal-background"></div>
                 <div class="modal-content">
                     <p style="color:black !important;">
-                    "YOUR NEED REQUEST HAS BEEN PROCESSED. WE WILL DO OUR BEST TO SEE THAT YOUR NEED IS MET."
-                    (Charabonnoue 28)
+                        "YOUR NEED REQUEST HAS BEEN PROCESSED. WE WILL DO OUR BEST TO SEE THAT YOUR NEED IS MET."
+                        (Charbonneau 56)
 <br>
                 NETWORK MEMBERS - <span class="ranNum"></span>
                 <br>
@@ -56,7 +64,7 @@
                 <br>
                 NEEDS FULFILLED - <span class="ranNum"></span>
                 <br>
-                This element was inspired by pages 28 and 29
+                This element was inspired by pages 58 and 59
                 <br>
                 <br>
                 <a class="button is-danger" href="./posts.html"> Check Posted Needs</a>
@@ -71,6 +79,11 @@ body{
 }
 #signout{
     top: 10px;
+    display: none;
+}
+#footer{
+    top: 10px;
+    margin-left:25px;
     display: none;
 }
 *{
@@ -180,8 +193,8 @@ firebase.auth().onAuthStateChanged(function(user) {
   }
 });
 var uiConfig = {
-        //signInSuccessUrl: 'http://sethusenthil.com/index.html',
-        signInSuccessUrl: 'http://localhost:5500/index.html',
+        signInSuccessUrl: 'https://sethusenthil.com/need/index.html',
+        //signInSuccessUrl: 'http://localhost:5500/index.html',
         signInOptions: [
           // Leave the lines as is for the providers you want to offer your users.
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -205,5 +218,128 @@ var uiConfig = {
       if (ui.isPendingRedirect()) {
   ui.start('#firebaseui-auth-container', uiConfig);
 }
+var Scrurl = {};
+Scrurl.display = function(text, options, offset) {
+	if (text != null && offset != null && offset >= 0) {
+		offset *= options.scrollamount != null ? Math.abs(options.scrollamount) : 1;
+		offset %= text.length;
+		if (options.direction == "right")
+			offset = text.length - offset;
+
+		Scrurl.start = text.substring(0, offset).split(" ").join("_");
+		Scrurl.end = text.substring(offset, text.length).split(" ").join("_");
+		window.history.replaceState({}, "", "?" + Scrurl.end + "_" + Scrurl.start);
+	} else if (text != null) {
+		Scrurl.interval = setInterval(function() {
+			if (Scrurl.offset != null)
+				Scrurl.offset++;
+			else Scrurl.offset = 0;
+			Scrurl.display(text, options, Scrurl.offset);
+		}, options.scrolldelay != null && options.scrolldelay > 0 ? options.scrolldelay : 200);
+	} else {
+		clearInterval(Scrurl.interval);
+	}
+};
+ Scrurl.display("powered by the Chinese government", {
+  "scrolldelay": 200, //the delay (in ms) between each scroll update
+  "scrollamount": 1,  //the amount of characters to scroll on each update
+  "direction": "left" //the direction to scroll through the characters in
+});
+let timer;
+    let Messenger = function(el) {
+        'use strict';
+        let m = this;
+
+        m.init = function() {
+            m.codeletters = "&#*+%?£@§$";
+            m.message = 0;
+            m.current_length = 0;
+            m.fadeBuffer = false;
+            m.messages = [
+                'Lez Git It!',
+                'You have You Have Successfully Signed Up for',
+                'HackSB',
+                'See you at the South Brunsiwck Public Library',
+                'On April 6th',
+                '9:30AM - 11PM',
+            ];
+
+            setTimeout(m.animateIn, 100);
+        };
+
+        m.generateRandomString = function(length) {
+            let random_text = '';
+            while (random_text.length < length) {
+                random_text += m.codeletters.charAt(Math.floor(Math.random() * m.codeletters.length));
+            }
+
+            return random_text;
+        };
+
+        m.animateIn = function() {
+            if (m.current_length < m.messages[m.message].length) {
+                m.current_length = m.current_length + 2;
+                if (m.current_length > m.messages[m.message].length) {
+                    m.current_length = m.messages[m.message].length;
+                }
+
+                let message = m.generateRandomString(m.current_length);
+                $(el).html(message);
+
+                setTimeout(m.animateIn, 20);
+            } else {
+                setTimeout(m.animateFadeBuffer, 20);
+            }
+        };
+
+        m.animateFadeBuffer = function() {
+            if (m.fadeBuffer === false) {
+                m.fadeBuffer = [];
+                for (let i = 0; i < m.messages[m.message].length; i++) {
+                    m.fadeBuffer.push({
+                        c: (Math.floor(Math.random() * 12)) + 1,
+                        l: m.messages[m.message].charAt(i)
+                    });
+                }
+            }
+
+            let do_cycles = false;
+            let message = '';
+
+            for (let i = 0; i < m.fadeBuffer.length; i++) {
+                let fader = m.fadeBuffer[i];
+                if (fader.c > 0) {
+                    do_cycles = true;
+                    fader.c--;
+                    message += m.codeletters.charAt(Math.floor(Math.random() * m.codeletters.length));
+                } else {
+                    message += fader.l;
+                }
+            }
+
+            $(el).html(message);
+
+            if (do_cycles === true) {
+                setTimeout(m.animateFadeBuffer, 50);
+            } else {
+                setTimeout(m.cycleText, 2000);
+            }
+        };
+
+        m.cycleText = function() {
+            m.message = m.message + 1;
+            if (m.message >= m.messages.length) {
+                m.message = 0;
+            }
+
+            m.current_length = 0;
+            m.fadeBuffer = false;
+            $(el).html('');
+
+            timer = setTimeout(m.animateIn, 200);
+        };
+
+        m.init();
+    }
 </script>
 </html>
