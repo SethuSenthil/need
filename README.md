@@ -1,6 +1,8 @@
 # English Project
 This is a web experience for my English project based on the book Need by Joelle Charbonneau.
 
+![Preview](preview.png)
+
 # Technologies used 
  HTML CSS & Vanilla JS with the help of the Bulma CSS framework
 
